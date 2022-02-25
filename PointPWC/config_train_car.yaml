@@ -1,4 +1,4 @@
-gpu: "0"
+gpu: "0,1"
 multi_gpu: True
 
 model_name: PointConv
