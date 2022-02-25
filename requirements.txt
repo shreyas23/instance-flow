@@ -7,3 +7,4 @@ sklearn
 tqdm
 cffi
 pypng
+pyyaml
