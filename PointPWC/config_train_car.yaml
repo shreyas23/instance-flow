@@ -1,5 +1,5 @@
 gpu: "0"
-multi_gpu: null
+multi_gpu: True
 
 model_name: PointConv
 
@@ -49,4 +49,4 @@ aug_pc2:
   jitter_clip: 0.00
 
 # miscalleneous
-workers: 16
+workers: 8
