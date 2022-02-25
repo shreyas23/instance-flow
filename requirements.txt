@@ -1,0 +1,9 @@
+torch
+numpy==1.21
+matplotlib
+numba
+scipy
+sklearn
+tqdm
+cffi
+pypng
