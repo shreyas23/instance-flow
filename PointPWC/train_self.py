@@ -39,7 +39,7 @@ def main():
     '''CREATE DIR'''
     experiment_dir = Path(args.checkpoint_root)
     experiment_dir.mkdir(exist_ok=True)
-    file_dir = Path(str(experiment_dir) + f'/{args.dataset}-'%args.model_name + str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')))
+    file_dir = Path(str(experiment_dir) + f"/{args.dataset}-{args.model_name}" + str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')))
     file_dir.mkdir(exist_ok=True)
     checkpoints_dir = file_dir.joinpath('checkpoints/')
     checkpoints_dir.mkdir(exist_ok=True)
