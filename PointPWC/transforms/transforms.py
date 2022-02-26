@@ -393,7 +393,7 @@ class Identity(object):
         return pc1, pc2, sf
 
     def __repr__(self):
-        format_string += '\ndata_process_args: \n'
+        format_string = 'data_process_args: \n'
         format_string += '\tDEPTH_THRESHOLD: {}\n'.format(self.DEPTH_THRESHOLD)
         format_string += '\tNO_CORR: {}\n'.format(self.no_corr)
         format_string += '\tallow_less_points: {}\n'.format(self.allow_less_points)
