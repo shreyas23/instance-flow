@@ -67,10 +67,9 @@ def main():
 
     train_dataset = datasets.__dict__[args.dataset](
         train=True,
-        transform=transforms.Identity(args.aug_together,
-                                            args.aug_pc2,
-                                            args.data_process,
-                                            args.num_points),
+        transform=transforms.Identity(args.data_process,
+                                      args.num_points,
+                                      args.allow_less_points),
         num_points=args.num_points,
         data_root = args.data_root#,
         # full=args.full

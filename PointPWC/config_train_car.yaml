@@ -26,11 +26,11 @@ DEVICE: cuda
 evaluate: False
 
 dataset: KittiCarInstances
-# data_root: /mnt/data/pcds/train/
-# checkpoint_root: /ceph/checkpoints/kitti_car_instance/
+data_root: /mnt/data/pcds/train/
+checkpoint_root: /ceph/checkpoints/kitti_car_instance/
 
-data_root: /external/datasets/two_frame_car/pcds/train
-checkpoint_root: /external/datasets/two_frame_car/checkpoints/
+# data_root: /external/datasets/two_frame_car/pcds/train
+# checkpoint_root: /external/datasets/two_frame_car/checkpoints/
 
 data_process:
   DEPTH_THRESHOLD: 0

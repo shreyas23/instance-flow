@@ -331,9 +331,7 @@ class Augmentation(object):
         return format_string
 
 class Identity(object):
-    def __init__(self, aug_together_args, aug_pc2_args, data_process_args, num_points, allow_less_points=False):
-        self.together_args = aug_together_args
-        self.pc2_args = aug_pc2_args
+    def __init__(self, data_process_args, num_points, allow_less_points=False):
         self.DEPTH_THRESHOLD = data_process_args['DEPTH_THRESHOLD']
         self.no_corr = data_process_args['NO_CORR']
         self.num_points = num_points
