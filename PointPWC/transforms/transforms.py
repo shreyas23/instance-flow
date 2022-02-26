@@ -264,7 +264,7 @@ class Augmentation(object):
         sf = pc2[:, :3] - pc1[:, :3]
 
         if not self.no_corr:
-            jitter2 = np.clip(self.pc2_args['jitter_sigma'] * np.random.randn(pc1.shape[0], 3),
+            jitter2 = np.clip(self.pc2_args['jitter_sigma'] * np.random.randn(pc2.shape[0], 3),
                               -self.pc2_args['jitter_clip'],
                               self.pc2_args['jitter_clip']).astype(np.float32)
             pc2[:, :3] += jitter2
@@ -312,6 +312,85 @@ class Augmentation(object):
         pc1 = pc1[sampled_indices1]
         pc2 = pc2[sampled_indices2]
         sf = sf[sampled_indices1]
+
+        return pc1, pc2, sf
+
+    def __repr__(self):
+        format_string = self.__class__.__name__ + '\n(together_args: \n'
+        for key in sorted(self.together_args.keys()):
+            format_string += '\t{:10s} {}\n'.format(key, self.together_args[key])
+        format_string += '\npc2_args: \n'
+        for key in sorted(self.pc2_args.keys()):
+            format_string += '\t{:10s} {}\n'.format(key, self.pc2_args[key])
+        format_string += '\ndata_process_args: \n'
+        format_string += '\tDEPTH_THRESHOLD: {}\n'.format(self.DEPTH_THRESHOLD)
+        format_string += '\tNO_CORR: {}\n'.format(self.no_corr)
+        format_string += '\tallow_less_points: {}\n'.format(self.allow_less_points)
+        format_string += '\tnum_points: {}\n'.format(self.num_points)
+        format_string += ')'
+        return format_string
+
+class Identity(object):
+    def __init__(self, aug_together_args, aug_pc2_args, data_process_args, num_points, allow_less_points=False):
+        self.together_args = aug_together_args
+        self.pc2_args = aug_pc2_args
+        self.DEPTH_THRESHOLD = data_process_args['DEPTH_THRESHOLD']
+        self.no_corr = data_process_args['NO_CORR']
+        self.num_points = num_points
+        self.allow_less_points = allow_less_points
+
+    def __call__(self, data):
+        pc1, pc2 = data
+        if pc1 is None:
+            return None, None, None
+
+        if self.DEPTH_THRESHOLD > 0:
+            near_mask1 = pc1[:, 2] < self.DEPTH_THRESHOLD
+            near_mask2 = pc2[:, 2] < self.DEPTH_THRESHOLD
+        else:
+            near_mask1 = np.ones(pc1.shape[0], dtype=np.bool)
+            near_mask2 = np.ones(pc2.shape[0], dtype=np.bool)
+
+        indices1 = np.where(near_mask1)[0]
+        indices2 = np.where(near_mask2)[0]
+
+        if len(indices1) == 0 or len(indices2) == 0:
+            print('indices = np.where(mask)[0], len(indices) == 0')
+            return None, None, None
+
+        if self.num_points > 0:
+            try:
+                sampled_indices1 = np.random.choice(indices1, size=self.num_points, replace=False, p=None)
+                if self.no_corr:
+                    sampled_indices2 = np.random.choice(indices2, size=self.num_points, replace=False, p=None)
+                else:
+                    sampled_indices2 = sampled_indices1
+            except ValueError:
+                '''
+                if not self.allow_less_points:
+                    print('Cannot sample {} points'.format(self.num_points))
+                    return None, None, None
+                else:
+                    sampled_indices1 = indices
+                    sampled_indices2 = indices
+                '''
+                if not self.allow_less_points:
+                    #replicate some points
+                    sampled_indices1 = np.random.choice(indices1, size=self.num_points, replace=True, p=None)
+                    if self.no_corr:
+                        sampled_indices2 = np.random.choice(indices2, size=self.num_points, replace=True, p=None)
+                    else:
+                        sampled_indices2 = sampled_indices1
+                else:
+                    sampled_indices1 = indices1
+                    sampled_indices2 = indices2
+        else:
+            sampled_indices1 = indices1
+            sampled_indices2 = indices2
+
+        pc1 = pc1[sampled_indices1]
+        pc2 = pc2[sampled_indices2]
+        sf = pc2[:, :3] - pc1[:, :3] #garbage do not use (no corresponding points)
 
         return pc1, pc2, sf
 

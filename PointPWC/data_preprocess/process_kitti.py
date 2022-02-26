@@ -73,7 +73,6 @@ def process_one_frame(idx):
     np.save(osp.join(truenas_path, 'pc1.npy'), valid_pc1)
     np.save(osp.join(truenas_path, 'pc2.npy'), valid_pc2)
 
-
 pool = Pool(4)
 indices = range(200)
 pool.map(process_one_frame, indices)

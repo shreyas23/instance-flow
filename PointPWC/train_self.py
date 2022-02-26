@@ -67,7 +67,7 @@ def main():
 
     train_dataset = datasets.__dict__[args.dataset](
         train=True,
-        transform=transforms.Augmentation(args.aug_together,
+        transform=transforms.Identity(args.aug_together,
                                             args.aug_pc2,
                                             args.data_process,
                                             args.num_points),
@@ -87,7 +87,7 @@ def main():
 
     val_dataset = datasets.__dict__[args.dataset](
         train=False,
-        transform=transforms.ProcessData(args.data_process,
+        transform=transforms.Identity(args.data_process,
                                          args.num_points,
                                          args.allow_less_points),
         num_points=args.num_points,
@@ -154,7 +154,7 @@ def main():
             pos2 = pos2.cuda() 
             norm1 = norm1.cuda()
             norm2 = norm2.cuda()
-            flow = flow.cuda() 
+            # flow = flow.cuda() 
 
             model = model.train() 
             pred_flows, _, _, pc1, pc2 = model(pos1, pos2, norm1, norm2)
