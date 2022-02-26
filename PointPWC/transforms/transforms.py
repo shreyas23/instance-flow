@@ -393,12 +393,6 @@ class Identity(object):
         return pc1, pc2, sf
 
     def __repr__(self):
-        format_string = self.__class__.__name__ + '\n(together_args: \n'
-        for key in sorted(self.together_args.keys()):
-            format_string += '\t{:10s} {}\n'.format(key, self.together_args[key])
-        format_string += '\npc2_args: \n'
-        for key in sorted(self.pc2_args.keys()):
-            format_string += '\t{:10s} {}\n'.format(key, self.pc2_args[key])
         format_string += '\ndata_process_args: \n'
         format_string += '\tDEPTH_THRESHOLD: {}\n'.format(self.DEPTH_THRESHOLD)
         format_string += '\tNO_CORR: {}\n'.format(self.no_corr)
