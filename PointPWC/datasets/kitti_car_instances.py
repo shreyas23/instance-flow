@@ -77,8 +77,8 @@ class KittiCarInstances(data.Dataset):
             pc1: ndarray (N, 3) np.float32
             pc2: ndarray (N, 3) np.float32
         """
-        pc1 = np.load(osp.join(path, 'pc1.npy')).T  #.astype(np.float32)
-        pc2 = np.load(osp.join(path, 'pc2.npy')).T  #.astype(np.float32)
+        pc1 = np.load(osp.join(path, 'pc1.npy')).T.astype(np.float32)
+        pc2 = np.load(osp.join(path, 'pc2.npy')).T.astype(np.float32)
 
         # if self.remove_ground:
         #     is_ground = np.logical_and(pc1[:,1] < -1.4, pc2[:,1] < -1.4)
