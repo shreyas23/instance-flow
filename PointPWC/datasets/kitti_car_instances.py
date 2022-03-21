@@ -21,9 +21,8 @@ class KittiCarInstances(data.Dataset):
                  transform,
                  num_points,
                  data_root,
-                 remove_ground = True):
+                 remove_ground = False):
         self.root = data_root
-        #assert train is False
         self.train = train
         self.transform = transform
         self.num_points = num_points
@@ -39,6 +38,7 @@ class KittiCarInstances(data.Dataset):
     def __getitem__(self, index):
         pc1_loaded, pc2_loaded = self.pc_loader(self.samples[index])
         pc1_transformed, pc2_transformed, sf_transformed = self.transform([pc1_loaded, pc2_loaded])
+        
         if pc1_transformed is None:
             print('path {} get pc1 is None'.format(self.samples[index]), flush=True)
             index = np.random.choice(range(self.__len__()))
@@ -50,13 +50,12 @@ class KittiCarInstances(data.Dataset):
 
     def __repr__(self):
         fmt_str = 'Dataset ' + self.__class__.__name__ + '\n'
-        fmt_str += '    Number of datapoints: {}\n'.format(self.__len__())
-        fmt_str += '    Number of points per point cloud: {}\n'.format(self.num_points)
-        fmt_str += '    is removing ground: {}\n'.format(self.remove_ground)
-        fmt_str += '    Root Location: {}\n'.format(self.root)
+        fmt_str += '\tNumber of datapoints: {}\n'.format(self.__len__())
+        fmt_str += '\tNumber of points per point cloud: {}\n'.format(self.num_points)
+        fmt_str += '\tis removing ground: {}\n'.format(self.remove_ground)
+        fmt_str += '\tRoot Location: {}\n'.format(self.root)
         tmp = '    Transforms (if any): '
         fmt_str += '{0}{1}\n'.format(tmp, self.transform.__repr__().replace('\n', '\n' + ' ' * len(tmp)))
-
         return fmt_str
 
     def make_dataset(self):
@@ -77,14 +76,8 @@ class KittiCarInstances(data.Dataset):
             pc1: ndarray (N, 3) np.float32
             pc2: ndarray (N, 3) np.float32
         """
-        pc1 = np.load(osp.join(path, 'pc1.npy')).T.astype(np.float32)
-        pc2 = np.load(osp.join(path, 'pc2.npy')).T.astype(np.float32)
-
-        # if self.remove_ground:
-        #     is_ground = np.logical_and(pc1[:,1] < -1.4, pc2[:,1] < -1.4)
-        #     not_ground = np.logical_not(is_ground)
-
-        #     pc1 = pc1[not_ground]
-        #     pc2 = pc2[not_ground]
+        pc1 = np.load(osp.join(path, 'pc1.npy')).astype(np.float64)
+        pc2 = np.load(osp.join(path, 'pc2.npy')).astype(np.float64)
 
         return pc1, pc2
+    

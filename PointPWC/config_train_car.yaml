@@ -7,7 +7,7 @@ full: False
 
 arch: PointConv
 last_relu: False
-allow_less_points: False
+allow_less_points: True
 
 # general args
 batch_size: 1

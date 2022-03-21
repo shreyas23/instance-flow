@@ -8,3 +8,4 @@ tqdm
 cffi
 pypng
 pyyaml
+open3d

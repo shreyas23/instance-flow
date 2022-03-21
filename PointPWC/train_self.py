@@ -63,8 +63,7 @@ def main():
     logger.info(args)
 
     blue = lambda x: '\033[94m' + x + '\033[0m'
-    model = PointConvSceneFlow()
-
+    model = PointConvSceneFlow() 
     train_dataset = datasets.__dict__[args.dataset](
         train=True,
         transform=transforms.Identity(args.data_process,
@@ -127,7 +126,7 @@ def main():
     elif args.optimizer == 'Adam':
         optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, betas=(0.9, 0.999), 
                                      eps=1e-08, weight_decay=args.weight_decay)
-                
+
     optimizer.param_groups[0]['initial_lr'] = args.learning_rate 
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=80, gamma=0.5, last_epoch = init_epoch - 1)
     LEARNING_RATE_CLIP = 1e-5 
@@ -222,13 +221,13 @@ def eval_sceneflow(model, loader):
     metrics = defaultdict(lambda:list())
     for batch_id, data in tqdm(enumerate(loader), total=len(loader), smoothing=0.9):
         pos1, pos2, norm1, norm2, flow, _ = data  
-        
+
         #move to cuda 
         pos1 = pos1.cuda()
-        pos2 = pos2.cuda() 
+        pos2 = pos2.cuda()
         norm1 = norm1.cuda()
         norm2 = norm2.cuda()
-        flow = flow.cuda() 
+        flow = flow.cuda()
 
         with torch.no_grad():
             pred_flows, _, _, pc1, pc2 = model(pos1, pos2, norm1, norm2)

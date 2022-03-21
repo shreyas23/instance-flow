@@ -330,6 +330,7 @@ class Augmentation(object):
         format_string += ')'
         return format_string
 
+
 class Identity(object):
     def __init__(self, data_process_args, num_points, allow_less_points=False):
         self.DEPTH_THRESHOLD = data_process_args['DEPTH_THRESHOLD']
@@ -346,8 +347,8 @@ class Identity(object):
             near_mask1 = pc1[:, 2] < self.DEPTH_THRESHOLD
             near_mask2 = pc2[:, 2] < self.DEPTH_THRESHOLD
         else:
-            near_mask1 = np.ones(pc1.shape[0], dtype=np.bool)
-            near_mask2 = np.ones(pc2.shape[0], dtype=np.bool)
+            near_mask1 = np.ones(pc1.shape[0], dtype=bool)
+            near_mask2 = np.ones(pc2.shape[0], dtype=bool)
 
         indices1 = np.where(near_mask1)[0]
         indices2 = np.where(near_mask2)[0]
@@ -388,15 +389,6 @@ class Identity(object):
 
         pc1 = pc1[sampled_indices1]
         pc2 = pc2[sampled_indices2]
-        sf = pc2[:, :3] - pc1[:, :3] #garbage do not use (no corresponding points)
+        sf = pc2[:, :3] - pc1[:, :3] # garbage do not use (no corresponding points)
 
         return pc1, pc2, sf
-
-    def __repr__(self):
-        format_string = 'data_process_args: \n'
-        format_string += '\tDEPTH_THRESHOLD: {}\n'.format(self.DEPTH_THRESHOLD)
-        format_string += '\tNO_CORR: {}\n'.format(self.no_corr)
-        format_string += '\tallow_less_points: {}\n'.format(self.allow_less_points)
-        format_string += '\tnum_points: {}\n'.format(self.num_points)
-        format_string += ')'
-        return format_string
