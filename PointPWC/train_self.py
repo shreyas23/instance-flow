@@ -146,16 +146,17 @@ def main():
         total_seen = 0
         optimizer.zero_grad()
         for i, data in tqdm(enumerate(train_loader, 0), total=len(train_loader), smoothing=0.9):
-            pos1, pos2, norm1, norm2, flow, _ = data  
+            pos1, pos2, norm1, norm2, flow, _ = data
             #move to cuda 
-            pos1 = pos1.cuda()
-            pos2 = pos2.cuda() 
-            norm1 = norm1.cuda()
-            norm2 = norm2.cuda()
+            pos1 = pos1.cuda().float()
+            pos2 = pos2.cuda().float()
+            norm1 = norm1.cuda().float()
+            norm2 = norm2.cuda().float()
             # flow = flow.cuda() 
 
             model = model.train() 
             pred_flows, _, _, pc1, pc2 = model(pos1, pos2, norm1, norm2)
+            asdf
 
             loss, chamfer_loss, curvature_loss, smoothness_loss = multiScaleChamferSmoothCurvature(pc1, pc2, pred_flows)
 

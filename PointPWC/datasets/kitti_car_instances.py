@@ -38,7 +38,7 @@ class KittiCarInstances(data.Dataset):
     def __getitem__(self, index):
         pc1_loaded, pc2_loaded = self.pc_loader(self.samples[index])
         pc1_transformed, pc2_transformed, sf_transformed = self.transform([pc1_loaded, pc2_loaded])
-        
+
         if pc1_transformed is None:
             print('path {} get pc1 is None'.format(self.samples[index]), flush=True)
             index = np.random.choice(range(self.__len__()))

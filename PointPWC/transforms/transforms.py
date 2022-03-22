@@ -357,6 +357,7 @@ class Identity(object):
             print('indices = np.where(mask)[0], len(indices) == 0')
             return None, None, None
 
+        print('num_points', self.num_points)
         if self.num_points > 0:
             try:
                 sampled_indices1 = np.random.choice(indices1, size=self.num_points, replace=False, p=None)
@@ -389,6 +390,6 @@ class Identity(object):
 
         pc1 = pc1[sampled_indices1]
         pc2 = pc2[sampled_indices2]
-        sf = pc2[:, :3] - pc1[:, :3] # garbage do not use (no corresponding points)
+        sf = torch.rand((pc1.shape[0], pc1.shape[1])) #pc2[:, :3] - pc1[:, :3] # garbage do not use (no corresponding points)
 
         return pc1, pc2, sf
