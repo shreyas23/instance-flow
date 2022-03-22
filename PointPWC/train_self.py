@@ -156,7 +156,6 @@ def main():
 
             model = model.train() 
             pred_flows, _, _, pc1, pc2 = model(pos1, pos2, norm1, norm2)
-            asdf
 
             loss, chamfer_loss, curvature_loss, smoothness_loss = multiScaleChamferSmoothCurvature(pc1, pc2, pred_flows)
 
