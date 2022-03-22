@@ -357,7 +357,6 @@ class Identity(object):
             print('indices = np.where(mask)[0], len(indices) == 0')
             return None, None, None
 
-        print('num_points', self.num_points)
         if self.num_points > 0:
             try:
                 sampled_indices1 = np.random.choice(indices1, size=self.num_points, replace=False, p=None)
