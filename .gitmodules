@@ -1,0 +1,3 @@
+[submodule "cluster-scripts"]
+	path = cluster-scripts
+	url = https://github.com/shreyas23/cluster-scripts.git
