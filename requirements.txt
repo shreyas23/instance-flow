@@ -1,11 +1,7 @@
 torch==1.5.0
+torchvision==0.6.0
+spatial-correlation-sampler
 numpy
 matplotlib
-numba
 scipy
-sklearn
 tqdm
-cffi
-pypng
-pyyaml
-open3d
