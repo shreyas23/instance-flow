@@ -24,7 +24,7 @@ class PWCDCNet(nn.Module):
     """
     def __init__(self, md=4):
         """
-        input: md --- maximum displacement (for correlation. default: 4), after warpping
+        input: md --- maximum displacement (for correlation. default: 4), after warping
 
         """
         super(PWCDCNet,self).__init__()
