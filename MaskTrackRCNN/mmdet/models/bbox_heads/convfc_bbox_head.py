@@ -27,6 +27,7 @@ class ConvFCBBoxHead(BBoxHead):
                  normalize=None,
                  *args,
                  **kwargs):
+
         super(ConvFCBBoxHead, self).__init__(*args, **kwargs)
         assert (num_shared_convs + num_shared_fcs + num_cls_convs + num_cls_fcs
                 + num_reg_convs + num_reg_fcs > 0)
