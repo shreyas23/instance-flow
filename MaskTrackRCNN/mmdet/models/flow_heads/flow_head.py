@@ -166,7 +166,7 @@ def deconv(in_planes, out_planes, kernel_size=4, stride=2, padding=1):
 #     def forward(self,x):
 #         im1 = x[:,:3,:,:]
 #         im2 = x[:,3:,:,:]
-        
+
 #         c11 = self.conv1b(self.conv1aa(self.conv1a(im1)))
 #         c21 = self.conv1b(self.conv1aa(self.conv1a(im2)))
 #         c12 = self.conv2b(self.conv2aa(self.conv2a(c11)))
@@ -194,7 +194,7 @@ def deconv(in_planes, out_planes, kernel_size=4, stride=2, padding=1):
 #         up_flow6 = self.deconv6(flow6)
 #         up_feat6 = self.upfeat6(x)
 
-        
+
 #         warp5 = self.warp(c25, up_flow6*0.625)
 #         corr5 = self.corr(c15, warp5) 
 #         b, pw, ph, w, h = corr5.shape

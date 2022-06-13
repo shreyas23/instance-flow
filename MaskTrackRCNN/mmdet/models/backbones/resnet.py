@@ -325,7 +325,7 @@ class ResNet(nn.Module):
 
     def _make_stem_layer(self):
         self.conv1 = nn.Conv2d(
-            3, 64, kernel_size=7, stride=2, padding=3, bias=False)
+            3, 64, kernel_size=7, stride=1, padding=3, bias=False)
         self.norm1_name, norm1 = build_norm_layer(self.normalize,
                                                   64, postfix=1)
         self.add_module(self.norm1_name, norm1)
