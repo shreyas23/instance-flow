@@ -490,21 +490,22 @@ class FlowHead(nn.Module):
         x = torch.cat((self.conv2_3(x), x),1)
         x = torch.cat((self.conv2_4(x), x),1)
         flow2 = self.predict_flow2(x)
- 
+
         x = self.dc_conv4(self.dc_conv3(self.dc_conv2(self.dc_conv1(x))))
         flow2 = flow2 + self.dc_conv7(self.dc_conv6(self.dc_conv5(x)))
-        
+
         if self.training:
             return flow2,flow3,flow4,flow5,flow6
         else:
             return flow2
-    
+
     def loss(self, pred_flow, gt_flow):
         """
             Supervised loss is the dense L1-norm.
         """
         loss = None
         return loss
+
 if __name__ == '__main__':
 
     input_ = torch.rand((1, 6, 256, 832)).cuda()
