@@ -52,7 +52,7 @@ class PWCDCNet(nn.Module):
         # self.corr    = Correlation(pad_size=md, kernel_size=1, max_displacement=md, stride1=1, stride2=1, corr_multiply=1)
         self.corr    = SpatialCorrelationSampler(kernel_size=1, patch_size=9, stride=1, padding=0, dilation=1, dilation_patch=1)
         self.leakyRELU = nn.LeakyReLU(0.1)
-        
+
         nd = (2*md+1)**2
         dd = np.cumsum([128,128,96,64,32])
 
@@ -61,21 +61,21 @@ class PWCDCNet(nn.Module):
         self.conv6_1 = conv(od+dd[0],128, kernel_size=3, stride=1)
         self.conv6_2 = conv(od+dd[1],96,  kernel_size=3, stride=1)
         self.conv6_3 = conv(od+dd[2],64,  kernel_size=3, stride=1)
-        self.conv6_4 = conv(od+dd[3],32,  kernel_size=3, stride=1)        
+        self.conv6_4 = conv(od+dd[3],32,  kernel_size=3, stride=1)
         self.predict_flow6 = predict_flow(od+dd[4])
-        self.deconv6 = deconv(2, 2, kernel_size=4, stride=2, padding=1) 
-        self.upfeat6 = deconv(od+dd[4], 2, kernel_size=4, stride=2, padding=1) 
-        
+        self.deconv6 = deconv(2, 2, kernel_size=4, stride=2, padding=1)
+        self.upfeat6 = deconv(od+dd[4], 2, kernel_size=4, stride=2, padding=1)
+
         od = nd+128+4
         self.conv5_0 = conv(od,      128, kernel_size=3, stride=1)
         self.conv5_1 = conv(od+dd[0],128, kernel_size=3, stride=1)
         self.conv5_2 = conv(od+dd[1],96,  kernel_size=3, stride=1)
         self.conv5_3 = conv(od+dd[2],64,  kernel_size=3, stride=1)
         self.conv5_4 = conv(od+dd[3],32,  kernel_size=3, stride=1)
-        self.predict_flow5 = predict_flow(od+dd[4]) 
-        self.deconv5 = deconv(2, 2, kernel_size=4, stride=2, padding=1) 
-        self.upfeat5 = deconv(od+dd[4], 2, kernel_size=4, stride=2, padding=1) 
-        
+        self.predict_flow5 = predict_flow(od+dd[4])
+        self.deconv5 = deconv(2, 2, kernel_size=4, stride=2, padding=1)
+        self.upfeat5 = deconv(od+dd[4], 2, kernel_size=4, stride=2, padding=1)
+
         od = nd+96+4
         self.conv4_0 = conv(od,      128, kernel_size=3, stride=1)
         self.conv4_1 = conv(od+dd[0],128, kernel_size=3, stride=1)
@@ -192,7 +192,7 @@ class PWCDCNet(nn.Module):
         up_flow6 = self.deconv6(flow6)
         up_feat6 = self.upfeat6(x)
 
-        
+
         warp5 = self.warp(c25, up_flow6*0.625)
         corr5 = self.corr(c15, warp5) 
         b, pw, ph, w, h = corr5.shape
